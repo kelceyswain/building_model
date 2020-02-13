@@ -4,8 +4,8 @@ from django.core.exceptions import ValidationError
 
 class Building(models.Model):
     name = models.CharField(max_length=200)
-    building_id = models.IntegerField()
-    desctription = models.TextField()
+    #building_id = models.IntegerField()
+    description = models.TextField()
     
     def __str__(self):
         return self.name
@@ -13,15 +13,19 @@ class Building(models.Model):
 
 
 class Content(models.Model):
-
     title = models.CharField(max_length=100)
     #creator = pass # I think this needs to make use of a foreign key that takes something from the Users app with email etc available. 
     public = models.BooleanField(default=False, null=False, editable=True)
     date_added = models.DateField(auto_now_add=True)
+    building = models.ForeignKey(
+        'Building',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+    )
     
     class Meta:
         abstract = True
-
 
 
 class Text(Content):
@@ -29,7 +33,6 @@ class Text(Content):
     body = models.TextField()
     def __str__(self):
         return self.title
-
 
 
 class Image(Content):
@@ -54,7 +57,6 @@ class Video(Content):
     
     def __str__(self):
         return self.title
-
 
 
 class Sound(Content):
