@@ -18,9 +18,12 @@ from django.conf import settings
 from django.urls import path, include
 from django.conf.urls.static import static
 
+from django.views.generic import TemplateView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
+    path('buildings', TemplateView.as_view(template_name='buildings.html')),
 ]
 
 if settings.DEBUG:
